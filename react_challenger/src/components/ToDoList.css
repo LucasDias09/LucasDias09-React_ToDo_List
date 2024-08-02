@@ -18,21 +18,51 @@ body{
     list-style-type: none;
     border-collapse: collapse;
 }
+.toDoContent{
+    overflow-y: auto;
+    max-height:10vh;
+}
+.toDoContent::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px #8f6957 ;
+  border-radius: 10px;
+  background-color: #b47051;
+  margin-right: 5px;
+}
+.toDoContent::-webkit-scrollbar {
+  width: 14px;
+}
+.toDoContent::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px  #8f6957;
+  background-color: #6d432f;
+}
 li{
     border: solid #8f6957 1px;
-    background-color:#a3a3a3;
+    background-color:#b47051;
     border-radius: 10px;    
     display: list-item;   
 }
 
-/* Add Task */
-li:last-child{ 
+
+button{ 
     background-color: #e9967a;
     width: 50%;
     margin-left: 12em;
     margin-top: 5px;
-    border-radius: solid white 2px;
+    border-radius: 5px;
     padding: 5px;
+    border-radius: 5px;
+    font-size: 22px;
+    color: white;
+    font-family: Quicksand, sans-serif; 
+    transition: all 0.3s ease-in;
+    user-select: none;
+}
+button:hover{
+    background-color: rgba(255, 255, 255, 0.9);
+   cursor: pointer;
+   color: #8f6957;
+   
 }
 .spanCross{
     float: right;
@@ -40,7 +70,9 @@ li:last-child{
 }
 ul{
     text-align: left;
-    
+}
+input[type=checkbox]:checked + span{
+  text-decoration: line-through green;
 }
 input[type="checkbox"] {
     width:20px;
