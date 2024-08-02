@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css?family=Quicksand&display=swap");
+body{
+    font-family: Quicksand, sans-serif;
+    overflow-y: hidden;
+    background-attachment: fixed;
+    color: white;
+     font-size: 22px;
+}
+.toDoList{
+    border: solid #8f6957 5px;
+    border-radius: 10px;
+    background-color: #b47051;
+    padding: 20px 20px 10px 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    width: 50%;
+    list-style-type: none;
+    border-collapse: collapse;
+}
+li{
+    border: solid #8f6957 1px;
+    background-color:#a3a3a3;
+    border-radius: 10px;    
+    display: list-item;   
+}
+
+/* Add Task */
+li:last-child{ 
+    background-color: #e9967a;
+    width: 50%;
+    margin-left: 12em;
+    margin-top: 5px;
+    border-radius: solid white 2px;
+    padding: 5px;
+}
+.spanCross{
+    float: right;
+    padding-right: 15px;
+}
+ul{
+    text-align: left;
+    
+}
+input[type="checkbox"] {
+    width:20px;
+    height: 20px;
+    margin: 0;
+  accent-color: green;
+  margin-right: 20px;
+}
+
