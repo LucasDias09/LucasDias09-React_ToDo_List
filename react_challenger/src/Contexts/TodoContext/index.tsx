@@ -1,7 +1,11 @@
 import React, { useState, createContext } from "react";
 import todosJson from "../../Todo.json";
 
-type Todo = { id: number; description: string; check: boolean };
+type Todo = {
+  id: number;
+  description: string;
+  check: boolean;
+};
 
 type DefaultValuesType = {
   todos: Todo[];
@@ -9,7 +13,7 @@ type DefaultValuesType = {
   createTodo?: (description: string) => void;
   deleteTodo?: (id: number) => void;
   changeCheck?: (id: number, check: boolean) => void;
-  changeDescripion?: (id: number) => void;
+  changeDescription?: (id: number, description: string) => void;
   saveEdition?: (description: string) => void;
 };
 
@@ -21,6 +25,7 @@ const defaultValues: DefaultValuesType = {
 export const TodoContext = createContext(defaultValues);
 
 export const TodoProvider = ({ children }) => {
+  localStorage.setItem("toDo", JSON.stringify(todosJson.todos));
   const [todos, setTodos] = useState(todosJson.todos);
   const [helperEdit, setHelperEdit] = useState("");
 
@@ -56,18 +61,10 @@ export const TodoProvider = ({ children }) => {
     if (!todo) return;
     todo.check = !todo.check;
   }
-  function changeDescripion(id: number) {
+  function changeDescription(id: number, description: string) {
     const todo = todos.find((todo) => todo.id === id);
     if (!todo) return;
-    // Show Input and BtnSave
-    let inputTask = document.querySelector(".inputTask") as HTMLElement;
-    let btnSave = document.querySelector(".btnSave") as HTMLElement;
-    if (btnSave && inputTask) {
-      inputTask.removeAttribute("hidden");
-      btnSave.removeAttribute("hidden");
-      deleteTodo(id);
-      inputTask.setAttribute("value", todo.description);
-    }
+    todo.description = description;
     setTodos(todos);
   }
   return (
@@ -78,7 +75,7 @@ export const TodoProvider = ({ children }) => {
         createTodo,
         deleteTodo,
         changeCheck,
-        changeDescripion,
+        changeDescription,
       }}
     >
       {children}

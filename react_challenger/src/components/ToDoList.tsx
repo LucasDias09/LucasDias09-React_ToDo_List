@@ -31,7 +31,7 @@ function ToDoList() {
       <div className="tableContent">
         <li>
           {todos?.map((task, key) => {
-            if (searchTerm === task.description) {
+            if (task.description.includes(searchTerm)) {
               console.log("entrou: ", searchTerm);
               return (
                 <div key={key}>
@@ -48,33 +48,7 @@ function ToDoList() {
           })}
         </li>
       </div>
-      <div className="editTodo">
-        <input
-          type="text"
-          className="inputTask"
-          hidden={true}
-          placeholder="Edit task"
-          value={editDescription}
-          onChange={(event) => {
-            setEditDescription(event.target.value);
-          }}
-        />
-        <button
-          className="btnSave"
-          hidden={true}
-          onClick={(event) => {
-            if (createTodo) createTodo(editDescription);
-            console.log(editDescription);
-            setEditDescription("");
-            document
-              .querySelector(".inputTask")
-              ?.setAttribute("hidden", "true");
-            document.querySelector(".btnSave")?.setAttribute("hidden", "true");
-          }}
-        >
-          Save
-        </button>
-      </div>
+
       <div className="addTodoTask">
         <input
           className="inputTask"
