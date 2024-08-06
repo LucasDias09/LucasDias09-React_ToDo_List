@@ -40,7 +40,6 @@ function Task({ task }: TaskProps) {
             changeDescripion?.(task.id);
             if (deleteTodo) deleteTodo(task.id);
           }}
-
         >
           <CiEdit></CiEdit>
         </span>

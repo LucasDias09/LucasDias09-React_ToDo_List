@@ -1,20 +1,19 @@
 {
-    "todos":[
-        {
-            "id":1,
-            "description":"Lavar Loiça",
-            "check":false
-        },
-        {
-            "id":2,
-            "description":"Lavar carro",
-            "check":false
-        },
-        {
-            "id":3,
-            "description":"Lavar chão",
-            "check":true
-        }
-    ]
-
+  "todos": [
+    {
+      "id": 1,
+      "description": "Lavar Loiça",
+      "check": false
+    },
+    {
+      "id": 2,
+      "description": "Lavar carro",
+      "check": false
+    },
+    {
+      "id": 3,
+      "description": "Lavar chão",
+      "check": true
+    }
+  ]
 }

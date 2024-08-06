@@ -7,20 +7,44 @@ function ToDoList() {
   const [newDescription, setNewDescription] = useState("");
   const [editDescription, setEditDescription] = useState("");
   const { todos, createTodo } = useContext(TodoContext);
+  const [searchTerm, setSearch] = useState("");
+  const handleInputChange = (e) => {
+    const searchTerm = e.target.value;
+    setSearch(searchTerm);
+  };
 
   return (
     <div className="toDoList">
       <div className="header">
+        <div className="filter_todo">
+          <label>Search</label>
+          <input
+            type="text"
+            className="filtervalue"
+            placeholder="search"
+            value={searchTerm}
+            onChange={handleInputChange}
+          />
+        </div>
         <h1>To Do List</h1>
       </div>
       <div className="tableContent">
         <li>
           {todos?.map((task, key) => {
-            return (
-              <div key={key}>
-                <Task task={task} />
-              </div>
-            );
+            if (searchTerm === task.description) {
+              console.log("entrou: ", searchTerm);
+              return (
+                <div key={key}>
+                  <Task task={task} />
+                </div>
+              );
+            } else {
+              return (
+                <div key={key}>
+                  <Task task={task} />
+                </div>
+              );
+            }
           })}
         </li>
       </div>
@@ -29,7 +53,7 @@ function ToDoList() {
           type="text"
           className="inputTask"
           hidden={true}
-          placeholder=""
+          placeholder="Edit task"
           value={editDescription}
           onChange={(event) => {
             setEditDescription(event.target.value);

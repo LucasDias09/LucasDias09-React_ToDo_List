@@ -5,6 +5,7 @@ type Todo = { id: number; description: string; check: boolean };
 
 type DefaultValuesType = {
   todos: Todo[];
+  helperEdit: string;
   createTodo?: (description: string) => void;
   deleteTodo?: (id: number) => void;
   changeCheck?: (id: number, check: boolean) => void;
@@ -14,24 +15,39 @@ type DefaultValuesType = {
 
 const defaultValues: DefaultValuesType = {
   todos: [],
+  helperEdit: "",
 };
 
 export const TodoContext = createContext(defaultValues);
 
 export const TodoProvider = ({ children }) => {
   const [todos, setTodos] = useState(todosJson.todos);
+  const [helperEdit, setHelperEdit] = useState("");
 
   function createTodo(description: string) {
-    const lastID = todos[todos.length - 1].id;
-    setTodos([
-      ...todos,
-      {
-        id: lastID + 1,
-        description: description,
-        check: false,
-      },
-    ]);
+    if (!(todos.length === 0)) {
+      const lastID = todos[todos.length - 1].id;
+      setTodos([
+        ...todos,
+        {
+          id: lastID + 1,
+          description: description,
+          check: false,
+        },
+      ]);
+      // If empty then create new ToDo
+    } else {
+      setTodos([
+        ...todos,
+        {
+          id: 1,
+          description: description,
+          check: false,
+        },
+      ]);
+    }
   }
+
   function deleteTodo(id: number) {
     setTodos(todos.filter((todo) => todo.id !== id));
   }
@@ -43,32 +59,26 @@ export const TodoProvider = ({ children }) => {
   function changeDescripion(id: number) {
     const todo = todos.find((todo) => todo.id === id);
     if (!todo) return;
-    let inputTask = document.querySelector(".inputTask") as HTMLElement; // Caixa de texto
-    let btnSave = document.querySelector(".btnSave") as HTMLElement; // Btn Save
+    // Show Input and BtnSave
+    let inputTask = document.querySelector(".inputTask") as HTMLElement;
+    let btnSave = document.querySelector(".btnSave") as HTMLElement;
     if (btnSave && inputTask) {
       inputTask.removeAttribute("hidden");
       btnSave.removeAttribute("hidden");
       deleteTodo(id);
       inputTask.setAttribute("value", todo.description);
     }
-
-    todo.description = "NewMessage";
     setTodos(todos);
   }
-  function saveEdition(description){
-    
-  }
-
-
   return (
     <TodoContext.Provider
       value={{
         todos,
+        helperEdit,
         createTodo,
         deleteTodo,
         changeCheck,
         changeDescripion,
-        saveEdition,
       }}
     >
       {children}
