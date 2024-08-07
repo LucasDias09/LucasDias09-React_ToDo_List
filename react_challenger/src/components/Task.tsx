@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { TodoContext } from "../Contexts/TodoContext/index.tsx";
 import { CiEdit } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
@@ -12,8 +12,8 @@ type TaskProps = {
 };
 function Task({ task }: TaskProps) {
   const [toDoTask, setToDoTask] = useState(task);
-  const [isEdit, setIsEdit] = useState(false);
-  const [editDescription, setEditDescription] = useState(task.description);
+  const [isEdit, setIsEdit] = useState(true);
+  const [editChange, setEditChange] = useState("");
   const { deleteTodo, changeCheck, changeDescription } =
     useContext(TodoContext);
 
@@ -21,38 +21,6 @@ function Task({ task }: TaskProps) {
     <ul>
       <div className="toDoContent">
         {isEdit ? (
-          <>
-            <div className="editTodo">
-              <input
-                autoFocus={true}
-                type="text"
-                className="inputTask"
-                placeholder={task.description}
-                value={editDescription}
-                onChange={(event) => {
-                  setEditDescription(event.target.value);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    if (changeDescription)
-                      changeDescription(task.id, editDescription);
-                    setIsEdit(false);
-                  }
-                }}
-              />
-              <button
-                className="btnSave"
-                onClick={(event) => {
-                  if (changeDescription)
-                    changeDescription(task.id, editDescription);
-                  setIsEdit(false);
-                }}
-              >
-                Save
-              </button>
-            </div>
-          </>
-        ) : (
           <>
             <input
               type="checkbox"
@@ -71,15 +39,36 @@ function Task({ task }: TaskProps) {
             >
               <IoMdClose />
             </span>
-
             <span
               className="editTask"
               onClick={(e) => {
-                setIsEdit(true);
+                setIsEdit(!isEdit);
               }}
             >
               <CiEdit></CiEdit>
             </span>
+          </>
+        ) : (
+          <>
+            <div className="editTodo">
+              <input
+                type="text"
+                className="inputTask"
+                defaultValue={task.description}
+                onChange={(e) => {
+                  setEditChange(e.target.value);
+                }}
+              />
+              <button
+                className="editBtn"
+                onClick={() => {
+                  setIsEdit(!isEdit);
+                  if (changeDescription) changeDescription(task.id, editChange);
+                }}
+              >
+                Save
+              </button>
+            </div>
           </>
         )}
       </div>

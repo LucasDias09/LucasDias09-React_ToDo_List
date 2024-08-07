@@ -9,7 +9,6 @@ type Todo = {
 
 type DefaultValuesType = {
   todos: Todo[];
-  helperEdit: string;
   createTodo?: (description: string) => void;
   deleteTodo?: (id: number) => void;
   changeCheck?: (id: number, check: boolean) => void;
@@ -19,15 +18,12 @@ type DefaultValuesType = {
 
 const defaultValues: DefaultValuesType = {
   todos: [],
-  helperEdit: "",
 };
 
 export const TodoContext = createContext(defaultValues);
 
 export const TodoProvider = ({ children }) => {
-  localStorage.setItem("toDo", JSON.stringify(todosJson.todos));
   const [todos, setTodos] = useState(todosJson.todos);
-  const [helperEdit, setHelperEdit] = useState("");
 
   function createTodo(description: string) {
     if (!(todos.length === 0)) {
@@ -71,7 +67,6 @@ export const TodoProvider = ({ children }) => {
     <TodoContext.Provider
       value={{
         todos,
-        helperEdit,
         createTodo,
         deleteTodo,
         changeCheck,
