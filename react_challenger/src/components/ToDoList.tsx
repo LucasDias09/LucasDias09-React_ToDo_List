@@ -1,8 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import "./ToDoList.css";
 import Task from "./Task.tsx";
 import { TodoContext } from "../Contexts/TodoContext/index.tsx";
-import { CopySimple } from "phosphor-react";
 
 function ToDoList() {
   const [newDescription, setNewDescription] = useState("");
@@ -43,6 +42,7 @@ function ToDoList() {
                     </div>
                   );
                 }
+                return "";
               })}
             </li>
           </>

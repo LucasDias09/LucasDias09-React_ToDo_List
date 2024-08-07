@@ -1,5 +1,6 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useEffect } from "react";
 import todosJson from "../../Todo.json";
+import { X } from "phosphor-react";
 
 type Todo = {
   id: number;
@@ -12,7 +13,7 @@ type DefaultValuesType = {
   createTodo?: (description: string) => void;
   deleteTodo?: (id: number) => void;
   changeCheck?: (id: number, check: boolean) => void;
-  changeDescription?: (id: number, description: string) => void;
+  editDescription?: (id: number, description: string) => void;
   saveEdition?: (description: string) => void;
 };
 
@@ -25,39 +26,32 @@ export const TodoContext = createContext(defaultValues);
 export const TodoProvider = ({ children }) => {
   const [todos, setTodos] = useState(todosJson.todos);
 
+  
   function createTodo(description: string) {
-    if (!(todos.length === 0)) {
-      const lastID = todos[todos.length - 1].id;
-      setTodos([
-        ...todos,
-        {
-          id: lastID + 1,
-          description: description,
-          check: false,
-        },
-      ]);
-      // If empty then create new ToDo
-    } else {
-      setTodos([
-        ...todos,
-        {
-          id: 1,
-          description: description,
-          check: false,
-        },
-      ]);
+    // If empty
+    if (description.length === 0) {
+      return;
     }
+    const lastID = todos[todos.length - 1].id;
+    const newCreateToDo = {
+      id: lastID + 1 || 1,
+      description: description,
+      check: false,
+    };
+    const newToDos = [...todos, newCreateToDo];
+    setTodos(newToDos);
+    // If empty then create new ToDo
   }
-
   function deleteTodo(id: number) {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    const newTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(newTodos);
   }
   function changeCheck(id: number, check: boolean) {
     const todo = todos.find((todo) => todo.id === id);
     if (!todo) return;
     todo.check = !todo.check;
   }
-  function changeDescription(id: number, description: string) {
+  function editDescription(id: number, description: string) {
     const todo = todos.find((todo) => todo.id === id);
     if (!todo) return;
     todo.description = description;
@@ -70,7 +64,7 @@ export const TodoProvider = ({ children }) => {
         createTodo,
         deleteTodo,
         changeCheck,
-        changeDescription,
+        editDescription,
       }}
     >
       {children}

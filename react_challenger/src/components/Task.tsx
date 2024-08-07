@@ -12,9 +12,10 @@ type TaskProps = {
 };
 function Task({ task }: TaskProps) {
   const [toDoTask, setToDoTask] = useState(task);
+  const [newDescription, setNewDescription] = useState("");
   const [isEdit, setIsEdit] = useState(true);
   const [editChange, setEditChange] = useState("");
-  const { deleteTodo, changeCheck, changeDescription } =
+  const { deleteTodo, changeCheck, editDescription, createTodo } =
     useContext(TodoContext);
 
   return (
@@ -58,12 +59,18 @@ function Task({ task }: TaskProps) {
                 onChange={(e) => {
                   setEditChange(e.target.value);
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    setIsEdit(!isEdit);
+                    if (editDescription) editDescription(task.id, editChange);
+                  }
+                }}
               />
               <button
                 className="editBtn"
                 onClick={() => {
                   setIsEdit(!isEdit);
-                  if (changeDescription) changeDescription(task.id, editChange);
+                  if (editDescription) editDescription(task.id, editChange);
                 }}
               >
                 Save
