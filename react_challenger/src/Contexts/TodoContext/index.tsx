@@ -25,14 +25,16 @@ export const TodoContext = createContext(defaultValues);
 
 export const TodoProvider = ({ children }) => {
   const [todos, setTodos] = useState(todosJson.todos);
-
-  
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
   function createTodo(description: string) {
     // If empty
     if (description.length === 0) {
       return;
     }
     const lastID = todos[todos.length - 1].id;
+    // Add new object
     const newCreateToDo = {
       id: lastID + 1 || 1,
       description: description,
