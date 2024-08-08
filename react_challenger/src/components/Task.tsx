@@ -12,10 +12,9 @@ type TaskProps = {
 };
 function Task({ task }: TaskProps) {
   const [toDoTask, setToDoTask] = useState(task);
-  const [newDescription, setNewDescription] = useState("");
   const [isEdit, setIsEdit] = useState(true);
   const [editChange, setEditChange] = useState("");
-  const { deleteTodo, changeCheck, editDescription, createTodo } =
+  const { deleteTodo, changeCheck, editDescription } =
     useContext(TodoContext);
 
   return (
@@ -31,7 +30,13 @@ function Task({ task }: TaskProps) {
                 if (changeCheck) changeCheck(task.id, !task.check);
               }}
             />
-            <span>{task.description}</span>
+            <span
+              onClick={(e) => {
+                setIsEdit(!isEdit);
+              }}
+            >
+              {task.description}
+            </span>
             <span
               className="spanCross"
               onClick={() => {

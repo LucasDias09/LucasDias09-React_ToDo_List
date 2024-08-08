@@ -7,7 +7,8 @@ function ToDoList() {
   const [newDescription, setNewDescription] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [isFiltered, setIsFiltered] = useState(false);
-  const { todos, createTodo } = useContext(TodoContext);
+  
+  const { todos, createTodo } = useContext(TodoContext );
 
   return (
     <div className="toDoList">
@@ -42,6 +43,7 @@ function ToDoList() {
                     </div>
                   );
                 }
+
                 return "";
               })}
             </li>
