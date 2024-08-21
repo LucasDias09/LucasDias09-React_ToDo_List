@@ -33,7 +33,6 @@ export const TodoProvider = ({ children }) => {
   }, [todos]);
 
   function createTodo(description: string) {
-    // If InputTask is empty
     if (description.length === 0) {
       return;
     }
@@ -48,12 +47,14 @@ export const TodoProvider = ({ children }) => {
   }
   function deleteTodo(id: number) {
     const newTodos = todos.filter((todo) => todo.id !== id);
+    console.log(id);
+
     setTodos(newTodos);
   }
   function changeCheck(id: number, check: boolean) {
     const todo = todos.find((todo) => todo.id === id);
     if (!todo) return;
-    todo.check = !todo.check;
+    todos.check = !check;
     setTodos(todos);
   }
   function editDescription(id: number, description: string) {

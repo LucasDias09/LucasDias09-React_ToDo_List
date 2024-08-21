@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./ToDoList.css";
 import Task from "./Task.tsx";
 import { TodoContext } from "../Contexts/TodoContext/index.tsx";
@@ -7,8 +7,20 @@ function ToDoList() {
   const [newDescription, setNewDescription] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [isFiltered, setIsFiltered] = useState(false);
-  
-  const { todos, createTodo } = useContext(TodoContext );
+  const [filteredTodo, setFilteredTodo] = useState<any>([]);
+
+  const { todos, createTodo } = useContext(TodoContext);
+  useEffect(() => {
+    setFilteredTodo(
+      searchTerm
+        ? todos.filter((task) => {
+            return task.description
+              .toLocaleLowerCase()
+              .includes(searchTerm.toLocaleLowerCase());
+          })
+        : todos
+    );
+  }, [todos, searchTerm]);
 
   return (
     <div className="toDoList">
@@ -28,47 +40,25 @@ function ToDoList() {
         <h1>To Do List</h1>
       </div>
       <div className="tableContent">
-        {isFiltered ? (
-          <>
-            <li>
-              {todos?.map((task, key) => {
-                if (
-                  task.description
-                    .toLocaleLowerCase()
-                    .includes(searchTerm.toLocaleLowerCase())
-                ) {
-                  return (
-                    <div key={key}>
-                      <Task task={task} />
-                    </div>
-                  );
-                }
-
-                return "";
-              })}
-            </li>
-          </>
-        ) : (
-          <>
-            <li>
-              {todos?.map((task, key) => {
-                if (searchTerm === task.description) {
-                  return (
-                    <div key={key}>
-                      <Task task={task} />
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div key={key}>
-                      <Task task={task} />
-                    </div>
-                  );
-                }
-              })}
-            </li>
-          </>
-        )}
+        <>
+          <li>
+            {filteredTodo?.map((task, key) => {
+              if (searchTerm === task.description) {
+                return (
+                  <div key={key}>
+                    <Task task={task} />
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={key}>
+                    <Task task={task} />
+                  </div>
+                );
+              }
+            })}
+          </li>
+        </>
       </div>
       <div className="addTodoTask">
         <input

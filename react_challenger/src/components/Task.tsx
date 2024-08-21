@@ -13,9 +13,9 @@ type TaskProps = {
 function Task({ task }: TaskProps) {
   const [toDoTask, setToDoTask] = useState(task);
   const [isEdit, setIsEdit] = useState(true);
+  const [isCheck, setIsChecked] = useState(task.check);
   const [editChange, setEditChange] = useState("");
-  const { deleteTodo, changeCheck, editDescription } =
-    useContext(TodoContext);
+  const { deleteTodo, changeCheck, editDescription } = useContext(TodoContext);
 
   return (
     <ul>
@@ -25,9 +25,10 @@ function Task({ task }: TaskProps) {
             <input
               type="checkbox"
               className="checkbox"
-              defaultChecked={toDoTask.check}
-              onClick={() => {
-                if (changeCheck) changeCheck(task.id, !task.check);
+              defaultChecked={isCheck}
+              onClick={(e) => {
+                setIsChecked(!task.check);
+                if (changeCheck) changeCheck(task.id, isCheck);
               }}
             />
             <span
@@ -63,6 +64,7 @@ function Task({ task }: TaskProps) {
                 defaultValue={task.description}
                 onChange={(e) => {
                   setEditChange(e.target.value);
+
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
